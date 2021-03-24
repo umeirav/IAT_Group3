@@ -1,5 +1,8 @@
 #+Title: Final Reserach Report P363 (Group 3)
+#+Author: 
 
-
+#+latex: \bibliographystyle{apalike}
+#+latex: \bibliography{references}
 
 * Introduction 
+
