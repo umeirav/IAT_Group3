@@ -1,5 +1,25 @@
 from psychopy import visual, core, event  # import some libraries from PsychoPy
 import random
+import csv
+
+
+# converts word bank into list of individual words
+with open('wordBank.txt') as f:
+    wordCue = [word for line in f for word in line.split()]
+
+
+# Create all basic objects (window, fixation-cross, timer)
+timer = core.Clock()
+mywin = visual.Window(fullscr = True, monitor="testMonitor", units="deg")
+fixCross = visual.TextStim(mywin, text = '+', height = 0.1)
+
+# Key list variables that participants will use to indicate whether word is related to self or not
+# right = self, left = other, q = quit game; the key left and right refer to arrows keys
+keyL = ["right", "left", "q"]
+
+# Other global variables
+trial = 0
+
 
 def startExperiment():
 
@@ -16,13 +36,10 @@ def startExperiment():
     '''
 
     # Part 1
-    instructions = ['This is a test', 
-    'you will now see a series of words',
-    'press `->` for self and `<-` for other',
-    'press any key to continue']
+    instructions = ['Welcome to our experiment you will see a series of words \nwhere you will press `->` for if you think the words pertains to yourself \nand `<-` if it does not \npress any key to continue']
     pos = [[-9,8],[-4,6],[-4,4],[-6,2]]
     for i in range(len(instructions)):
-        visual.TextStim(win=mywin, text=instructions[i], pos=pos[i], wrapWidth=500).draw()
+        visual.TextStim(win=mywin, text=instructions[i], pos=[i], wrapWidth=500).draw()
     mywin.flip()
     thisResp=None
     while thisResp==None:
@@ -30,21 +47,25 @@ def startExperiment():
         if len(allKeys) > 0:
             thisResp = allKeys[0]
     # Part 2
-    sessions = [["Self","Other"]*3,["Joy", "Vomit"]*3,["Self", "Joy", "Other", "Vomit"]*3]
-    sessions.append(sessions[1])
-    sessions.append(sessions[2])
+    wordlist = open("wordBank.txt").read().split()
+    print(wordlist)
+    sessions = [["SELF","OTHER"]*3,wordlist,wordlist]
 
     # Part 3
-    for i,current in enumerate(sessions):
-        random.shuffle(current)
-        practice(i+1,current)
+    with open('results.csv', 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(['Word', 'Key', 'Reaction Time'])
+        for i,current in enumerate(sessions):
+            random.shuffle(current)
+            practice(i,current,i==0,writer)
 
     # Part 4
     visual.TextStim(win=mywin, text='End Of Experiment', pos=[0,0], wrapWidth=500).draw()
     mywin.flip()
-    core.wait(5.0)
+    core.wait(2.0)
+    core.quit()
     
-def practice(num,wordlist):
+def practice(num,wordlist,isPractice,writer):
 
     '''
     This function is called from the start experiment func
@@ -59,25 +80,33 @@ def practice(num,wordlist):
     '''
 
     # Part 1
-    print(f"\nprinting info for Practice {num}: \n")
-    visual.TextStim(win=mywin, text='Practice '+str(num), pos=[0,0]).draw()
+    
+    print(f"\nprinting info for Run {num}: \n")
+    if isPractice:  
+         visual.TextStim(win=mywin, text='Practice '+str(num+1), pos=[0,0])    
+    else:
+        visual.TextStim(win=mywin, text='Real Test '+str(num), pos=[0,0]).draw()
     mywin.flip()
     core.wait(1)
 
     # Part 2
-    for i in wordlist:
-        visual.TextStim(win=mywin, text=i, pos=[0,0]).draw()
+    for i in range(20):
+        word = random.choice(wordlist)
+        visual.TextStim(win=mywin, text=word, pos=[0,0]).draw()
         mywin.flip()
-        recordTime(i, timer.getTime())
+        recordTime(word, timer.getTime(),writer)
         mywin.flip()
         core.wait(0.1)
 
     # Part 3
-    visual.TextStim(win=mywin, text='End of practice '+str(num), pos=[0,0]).draw()
+    if isPractice:
+        visual.TextStim(win=mywin, text='End of practice '+str(num+1), pos=[0,0]).draw()
+    else:
+        visual.TextStim(win=mywin, text='End of real test '+str(num), pos=[0,0]).draw()
     mywin.flip()
     core.wait(1)
     
-def recordTime(word, currentTime):
+def recordTime(word,currentTime,writer):
 
     '''
     This func is called from practice func
@@ -104,13 +133,9 @@ def recordTime(word, currentTime):
                 reaction_time = newTime - currentTime
 
                 # Part 3
+                writer.writerow([word, thisKey, reaction_time])
                 print(f"Current Word: {word} {thisKey} was pressed reaction time is {reaction_time}")
                 thisResp = thisKey
 
-
-timer = core.Clock() # Initializes timer
-
-# Initialzes window for the experiment
-mywin = visual.Window([800,600], monitor="testMonitor", units="deg")
-
+            
 startExperiment() #Calls startExperiment func
