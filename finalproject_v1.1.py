@@ -1,5 +1,25 @@
 from psychopy import visual, core, event  # import some libraries from PsychoPy
 import random
+import csv
+
+
+# converts word bank into list of individual words
+with open('wordBank.txt') as f:
+    wordCue = [word for line in f for word in line.split()]
+
+
+# Create all basic objects (window, fixation-cross, timer)
+timer = core.Clock()
+mywin = visual.Window([800,600], monitor="testMonitor", units="deg")
+fixCross = visual.TextStim(mywin, text = '+', height = 0.1)
+
+# Key list variables that participants will use to indicate whether word is related to self or not
+# right = self, left = other, q = quit game; the key left and right refer to arrows keys
+keyL = ["right", "left", "q"]
+
+# Other global variables
+trial = 0
+
 
 def startExperiment():
 
