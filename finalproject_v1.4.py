@@ -96,26 +96,11 @@ def startSession(sessionNum, selectSession):
         if len(allKeys) > 0:
             thisResp = allKeys[0]
     # Part 3
-
         current = wordlist[selectSession-1]
         random.shuffle(current)
         practice(sessionNum,current,True,selectSession in [4,5])
         if selectSession in [3, 5]:
             practice(selectSession,current,False,selectSession in [4,5])
-=======
-    with open('results.csv', 'w', newline='') as file:
-        writer = csv.writer(file)
-        writer.writerow(['Trial', 'Word', 'Key', 'Reaction Time'])
-        for i,current in enumerate(sessions):
-            random.shuffle(current)
-            practice(i,current,i==0,writer)
-
-    # Part 4
-    visual.TextStim(win=mywin, text='End Of Experiment', pos=[0,0], wrapWidth=500).draw()
-    mywin.flip()
-    core.wait(2.0)
-    core.quit()
-
     
 def practice(num,wordlist,isPractice,reverse):
 
@@ -157,13 +142,9 @@ def practice(num,wordlist,isPractice,reverse):
         word = item[:-2]
         visual.TextStim(win=mywin, text=word, pos=[0,0]).draw()
         mywin.flip()
-
         toWrite = recordTime(word, timer.getTime(),item[-1] == 'p',reverse,averageData)
         if not isPractice:
             writer.writerow([num] + toWrite)
-=======
-        recordTime(num, word, timer.getTime(),writer)
-
         mywin.flip()
         core.wait(0.1)
     if averageData[0][1] == 0: positiveReactionTime = 0
@@ -183,11 +164,7 @@ def practice(num,wordlist,isPractice,reverse):
     mywin.flip()
     core.wait(1)
     
-
 def recordTime(word, currentTime, isPositive, reverse, averageData):
-=======
-def recordTime(trial,word,currentTime,writer):
-
 
     '''
     This func is called from practice func
@@ -230,11 +207,6 @@ def recordTime(trial,word,currentTime,writer):
                         averageData[1][0] += reaction_time
                         averageData[1][1] += 1.0         
                 # Part 3
-
-=======
-                writer.writerow([trial, word, thisKey, reaction_time])
-                print(f"Run number {trial}. Current Word: {word} {thisKey} was pressed reaction time is {reaction_time}")
-
                 thisResp = thisKey
     print(f"Current Word: {word} {thisKey} was pressed reaction time is {reaction_time}")
     return [word, thisKey, reaction_time]
