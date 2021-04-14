@@ -54,7 +54,7 @@ def startExperiment():
     # Part 3
     with open('results.csv', 'w', newline='') as file:
         writer = csv.writer(file)
-        writer.writerow(['Word', 'Key', 'Reaction Time'])
+        writer.writerow(['Trial', 'Word', 'Key', 'Reaction Time'])
         for i,current in enumerate(sessions):
             random.shuffle(current)
             practice(i,current,i==0,writer)
@@ -94,7 +94,7 @@ def practice(num,wordlist,isPractice,writer):
         word = random.choice(wordlist)
         visual.TextStim(win=mywin, text=word, pos=[0,0]).draw()
         mywin.flip()
-        recordTime(word, timer.getTime(),writer)
+        recordTime(num, word, timer.getTime(),writer)
         mywin.flip()
         core.wait(0.1)
 
@@ -106,7 +106,7 @@ def practice(num,wordlist,isPractice,writer):
     mywin.flip()
     core.wait(1)
     
-def recordTime(word,currentTime,writer):
+def recordTime(trial,word,currentTime,writer):
 
     '''
     This func is called from practice func
@@ -133,8 +133,8 @@ def recordTime(word,currentTime,writer):
                 reaction_time = newTime - currentTime
 
                 # Part 3
-                writer.writerow([word, thisKey, reaction_time])
-                print(f"Current Word: {word} {thisKey} was pressed reaction time is {reaction_time}")
+                writer.writerow([trial, word, thisKey, reaction_time])
+                print(f"Run number {trial}. Current Word: {word} {thisKey} was pressed reaction time is {reaction_time}")
                 thisResp = thisKey
 
             
