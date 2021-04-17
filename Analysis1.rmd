@@ -1,0 +1,103 @@
+---
+title: "IAT3_1 Statistical Analysis"
+author: "Umeira Vijendra"
+date: "16/04/2021"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r}
+getwd()
+```
+
+```{r}
+IAT_data <- read.csv("IAT_ogcsv.csv", header = TRUE)
+read.table("IAT_ogcsv.csv", header = TRUE, sep = ",")
+class(IAT_data)
+```
+
+```{r}
+
+#install.packages("devtools")
+#devtools::install_github("crsh/papaja")
+
+#install.packages("tidyverse")
+
+library(papaja)
+library(tidyverse)
+
+```
+
+
+```{r}
+str(IAT_data)
+```
+
+```{r}
+IAT_data <- IAT_data
+
+mean(IAT_data$Positive.Word.Reaction.Time.Average)
+mean(IAT_data$Negative.Word.Reaction.Time.Average)
+mean(IAT_data$No.of.correct.keystorks)
+mean(IAT_data$No.of.correct.keystorks.1)
+mean(IAT_data$Sum.of.Positive.Reaction.Time)
+mean(IAT_data$Sum.of.Negative.Reaction.Time)
+```
+
+```{r}
+median(IAT_data$Positive.Word.Reaction.Time.Average)
+median(IAT_data$Sum.of.Positive.Reaction.Time)
+median(IAT_data$No.of.correct.keystorks)
+median(IAT_data$No.of.correct.keystorks)
+median(IAT_data$Sum.of.Negative.Reaction.Time)
+median(IAT_data$No.of.correct.keystorks.1)
+```
+
+```{r}
+sd(IAT_data$Positive.Word.Reaction.Time.Average)
+sd(IAT_data$Negative.Word.Reaction.Time.Average)
+sd(IAT_data$No.of.correct.keystorks)
+sd(IAT_data$No.of.correct.keystorks.1)
+sd(IAT_data$Sum.of.Positive.Reaction.Time)
+sd(IAT_data$Sum.of.Negative.Reaction.Time)
+```
+
+```{r}
+var(IAT_data$Positive.Word.Reaction.Time.Average)
+var(IAT_data$Negative.Word.Reaction.Time.Average)
+var(IAT_data$No.of.correct.keystorks)
+var(IAT_data$No.of.correct.keystorks.1)
+var(IAT_data$Sum.of.Positive.Reaction.Time)
+var(IAT_data$Sum.of.Negative.Reaction.Time)
+var(IAT_data$Positive.Word.Reaction.Time.Average)
+```
+
+```{r}
+library(stargazer)
+stargazer(IAT_data,
+          type = "latex",
+          title = "Summary table with stargazer",
+          label = "tabl",
+          table.placement = "H",
+          header=FALSE)
+```
+
+
+```{r} 
+#install.packages("ggplot.multistats")
+#install.packages("ggplot2")
+
+```
+
+```{r} 
+##This is practice plot to see if functions make sense
+library(tidyverse)
+
+plot(x = IAT_data$Positive.Word.Reaction.Time.Average, y = IAT_data$ï..Block)
+
+```
+
+```{r}
+summary(IAT_data)
+```
