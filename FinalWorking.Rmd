@@ -1,0 +1,107 @@
+---
+title: "Untitled"
+author: "Tanya Panesar"
+date: "16/04/2021"
+output:
+  pdf_document: default
+  html_document: default
+  word_document: default
+---
+
+```{r}
+getwd()
+```
+
+```{r}
+IAT_data <- read.csv("IAT_ogcsv.csv", header = TRUE)
+read.table("IAT_ogcsv.csv", header = TRUE, sep = ",")
+```
+
+
+```{r}
+
+IAT_data <- IAT_data
+
+str(IAT_data)
+```
+
+The following is the mean: 
+
+```{r}
+mean(IAT_data$Positive.Word.Reaction.Time.Average)
+mean(IAT_data$Sum.of.Positive.Reaction.Time)
+mean(IAT_data$No.of.correct.keystorks)
+mean(IAT_data$Negative.Word.Reaction.Time.Average)
+mean(IAT_data$Sum.of.Negative.Reaction.Time)
+mean(IAT_data$No.of.correct.keystorks.1)
+```
+
+The following is the standard deviation: 
+
+```{r}
+sd(IAT_data$Positive.Word.Reaction.Time.Average)
+sd(IAT_data$Sum.of.Positive.Reaction.Time)
+sd(IAT_data$No.of.correct.keystorks)
+sd(IAT_data$Negative.Word.Reaction.Time.Average)
+sd(IAT_data$Sum.of.Negative.Reaction.Time)
+sd(IAT_data$No.of.correct.keystorks.1)
+```
+
+Below is the median: 
+```{r}
+median(IAT_data$Positive.Word.Reaction.Time.Average)
+median(IAT_data$Sum.of.Positive.Reaction.Time)
+median(IAT_data$No.of.correct.keystorks)
+median(IAT_data$No.of.correct.keystorks)
+median(IAT_data$Sum.of.Negative.Reaction.Time)
+median(IAT_data$No.of.correct.keystorks.1)
+```
+
+
+Here is the summary of all the rows: Block, Positive.Word.Reaction.Time.Average,  Sum.of.Positive.Reaction.Time, No.of.correct.keystorks, Negative.Word.Reaction.Time.Average Sum.of.Negative.Reaction.Time, No.of.correct.keystorks.1 and Names. It includes minimum, 1st quadrant, mean, median, 3rd quadrant and maximum. 
+
+```{r}
+summary(IAT_data)
+```
+
+
+```{r}
+names(IAT_data)
+
+```
+
+```{r plot}
+IAT_data %>%
+  ggplot(aes(x = Positive.Word.Reaction.Time.Average, y = Negative.Word.Reaction.Time.Average,  color = as.factor(Block))) + geom_point()
+
+```
+
+```{r t_test, echo = FALSE, include = FALSE}
+
+
+data_block.3 <- IAT_data %>%
+  filter(Block == "3")
+data_block.5 <- IAT_data %>%
+  filter(Block == "5")
+
+ttest.1 <- t.test(data_block.3$Positive.Word.Reaction.Time.Average, data_block.5$Negative.Word.Reaction.Time.Average,paired=TRUE)
+
+ttest.2 <- t.test(data_block.3$Positive.Word.Reaction.Time.Average, data_block.5$Negative.Word.Reaction.Time.Average,paired = TRUE)
+
+ttest.1
+ttest.2
+```
+
+```{r}
+#install.packages("tidyverse")
+library(papaja)
+library(tidyverse)
+```
+
+```{r}
+#install.packages("ggplot.multistats")
+#install.packages("ggplot2")
+  
+```
+
+
