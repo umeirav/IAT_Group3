@@ -1,0 +1,329 @@
+#+Title: Final Reserach Report P363 (Group 3)
+#+Author: 
+
+
+* Introduction 
+
+The use of experimental tests have been employed in Psychology ever since it was born. Ever since then there have been the development of a number of psychological tests to measure certain variables. One particular test that has been developed uses implicit attitudes to measure a person's underlying automatic evalutation on a certain subject, this is known as the Implicit Association Test (IAT) \cite{greenwald_mcghee_schwartz_1998}. This test works by displaying target words or images on screen and having participants respond to pairs of attitude objects (e.g. self vs other) or affective concepts (e.g. positive vs negative) by pressing a left versus right response key. The reaction time to attribute the response to the target object is then taken as an indicator of implicit attitudes. Past researchers have used this method to test a variety of implicit attitudes, such as attitudes towards one parent \cite{Yang_2013} or the subjective well-being of oneself \cite{Walker_Schimmack_2008}. More notably IAT measures are often used as self-esteem measures using words to describe a person's chracteristic and measuring how fast one responds to characteristics that they might attribute to themself. Taking inspiration from the study done by Karpinski (2004) we will adopt a similar format using a word bank of describing characterisitcs to measure implicit attitudes towards self-esteem. 
+
+* Method 
+
+*Subjects*
+
+Students from group 3 of Computing and Psychological Research course at University of Waterloo and their respective family members and friends participated in the study. The study consists of 8 subjects in total. 
+
+*Procedure*
+
+In the IAT, the subject responds to a series of items that are to be classified in 2 categories, one assessing the associations of self versus other and the other representing an attribute discrimination such as pleasant versus unpleasant words. The experiment consisted of 5 blocks of categorization trials. In each step, the subject presses a left or right key to categorize each stimuli which are presented on the desktop screen. The computer recorded the elapsed time between beginning of presentation of each stimulus and occurrence of keyboard response of block 3 and block 5.
+
+Part 1 consists of instructions for the subject to understand what is needed from them. In the first step, the subjects practice a target concept by classifying items into self and other categories. The second step includes categorizing pleasant and unpleasant words. In the third step, the subject groups items into 2 integrated categories, ie, it includes the target and attribute concept, assigned to same key in the previous two steps. For instance, self+pleasant (left key), other+unpleasant(right key). The fourth step is the practice test with reverse keys for either the target or attribute concept. The last step involves switched key experiment. For example, self+unpleasant (left key) or other+pleasant(right key). 
+
+* Results
+
+##Setup for data export
+#+begin_src R :session *IAT* :exports none
+
+##install/import necessary packages
+##install.packages("tidyverse")
+##install.packages("ggplot.multistats")
+##install.packages("ggplot2")
+##install.packages("papaja")
+library(dplyr)
+library(ggplot.multistats)
+library(ggplot2)
+
+
+getwd()
+
+IAT_data <- read.csv("IAT_ogcsv.csv", header = TRUE)
+read.table("IAT_ogcsv.csv", header = TRUE, sep = ",")
+
+
+str(IAT_data)
+#+end_src
+
+#+RESULTS:
+
+*Data Structure*
+Below is an excerpt sample from one of our trial experiment result CSV files. As shown below, the data collected includes the run number (exclusively from the 3rd and 5th experiment sessions), the word presented on screen, the key the participant pressed, and their respective reaction time. In addition, the average and sum of participants positive and negative word reaction times and number of correct keystrokes were calculated for each of the comparative trial sessions.
+
+#+begin_src R :session *datastructure* :exports none
+##Setup for Data Structure Sample
+dg <- read.csv("devon_gilders.csv")
+#+end_src
+
+#+RESULTS:
+|                                   5 | OTHER                         | p                       |   3.60310349799988 |
+|                                   5 | SELF                          | q                       |  0.532158999999865 |
+|                                   5 | SELF                          | q                       |  0.945887737000021 |
+|                                   5 | ALONE                         | p                       |   1.40666980900005 |
+|                                   5 | SELF                          | q                       |  0.648605054999962 |
+|                                   5 | DISGRACE                      | p                       |  0.881576543999927 |
+|                                   5 | SELF                          | q                       |  0.689098889000206 |
+|                                   5 | SELF                          | q                       |  0.536034035999819 |
+|                                   5 | NERVOUS                       | q                       |   1.16507138899988 |
+|                                   5 | OTHER                         | p                       |  0.905071871000018 |
+|                                   5 | SELF                          | q                       |    2.0873857869999 |
+|                                   5 | ENEMY                         | p                       |   3.05358637800009 |
+|                                   5 | MODEL                         | q                       |   1.44476937400009 |
+|                                   5 | SELF                          | q                       |  0.653295039999875 |
+|                                   5 | STRONG                        | q                       |   1.16554592800003 |
+|                                   5 | SELF                          | q                       |  0.665557848999924 |
+|                                   5 | SELF                          | q                       |  0.481949886999928 |
+|                                   5 | FUN                           | q                       |  0.737643976999834 |
+|                                   5 | OTHER                         | p                       |  0.606559108000056 |
+|                                   5 | TRAP                          | p                       |  0.952879584999891 |
+|                                   5 | SHY                           | q                       |    1.6211031150001 |
+|                                   5 | OTHER                         | p                       |  0.622265404000018 |
+|                                   5 | BEAUTY                        | q                       |   1.23986760499997 |
+|                                   5 | OTHER                         | q                       |  0.576584833999959 |
+|                                   5 | SAD                           | p                       |   2.87615705100006 |
+|                                   5 | INFERIOR                      | p                       |   1.19484898200017 |
+|                                   5 | AFRAID                        | p                       |   1.77353196900003 |
+|                                   5 | TRUST                         | q                       |   1.07267699700014 |
+|                                   5 | OTHER                         | p                       |   1.32800722800016 |
+|                                   5 | SUPERIOR                      | q                       |   1.06910429200002 |
+|                                   5 | BRAVE                         | q                       |  0.724824525999793 |
+|                                   5 | SELF                          | q                       |  0.618353154000033 |
+|                                   5 | OTHER                         | p                       |   1.09205942299991 |
+|                                   5 | OTHER                         | p                       |  0.474795702999927 |
+|                                   5 | SCHOLAR                       | q                       |  0.858482401000174 |
+|                                   5 | OTHER                         | p                       |   0.68252136000001 |
+|                                   5 | VOMIT                         | p                       |   1.21036627100011 |
+|                                   5 | OTHER                         | p                       |   1.38036695700021 |
+|                                   5 | HELPFUL                       | q                       |   1.16766641699996 |
+|                                   5 | ADMIRE                        | q                       |   2.77905381400001 |
+|                                   5 | HERO                          | q                       |  0.565716176000024 |
+|                                   5 | SELF                          | q                       |  0.690065094999909 |
+|                                   5 | OTHER                         | p                       |  0.728857902000072 |
+|                                   5 | SELF                          | q                       |  0.662561002000075 |
+|                                   5 | LOVE                          | q                       |   1.00688286500008 |
+|                                   5 | SAFE                          | q                       |  0.632888416000014 |
+|                                   5 | SELF                          | q                       |    0.7459988600001 |
+|                                   5 | COWARD                        | p                       |   1.11889784100003 |
+|                                   5 | OTHER                         | p                       |  0.804299338999954 |
+|                                   5 | PROSPECT                      | q                       |   2.45450784600007 |
+|                                   5 | HONEST                        | q                       |  0.597964523999963 |
+|                                   5 | SELF                          | q                       |  0.521046229999911 |
+|                                   5 | HELPLESS                      | p                       |   1.35054479899986 |
+|                                   5 | OTHER                         | p                       |   1.14656014100001 |
+|                                   5 | IMPULSE                       | q                       |   1.05528375100016 |
+|                                   5 | WEAK                          | p                       |  0.967408386999978 |
+|                                   5 | OTHER                         | q                       |  0.626891960999956 |
+|                                   5 | OTHER                         | p                       |  0.948504046999915 |
+|                                   5 | SELF                          | q                       |   6.27302761700003 |
+|                                   5 | TROUBLE                       | p                       |   1.64628255100001 |
+| Positive Word Reaction Time Average | Sum of Positive Reaction Time | No of correct keystorks |                nil |
+|                  1.1422873465333245 | 34.26862039599973             | 30.0                    |                nil |
+| Negative Word Reaction Time Average | Sum of Negative Reaction Time | No of correct keystorks |                nil |
+|                  1.3102288859200144 | 32.75572214800036             | 25.0                    |                nil |
+|                                   3 | VOMIT                         | p                       | 0.0850343849999717 |
+|                                   3 | OTHER                         | q                       |   3.48829383799989 |
+|                                   3 | SELF                          | p                       |  0.466892563000101 |
+|                                   3 | TRUST                         | p                       |  0.602834821999977 |
+|                                   3 | SELF                          | p                       |  0.436908559999893 |
+|                                   3 | OTHER                         | q                       |   1.98390295199988 |
+|                                   3 | INTIMATE                      | p                       |  0.833416956000065 |
+|                                   3 | SELF                          | p                       |  0.682819296000162 |
+|                                   3 | ENEMY                         | q                       |  0.650400273000059 |
+|                                   3 | TERRIFIC                      | p                       |   1.02776147600002 |
+|                                   3 | OTHER                         | q                       |  0.684819787999913 |
+|                                   3 | SAFE                          | p                       |  0.579596880000054 |
+|                                   3 | SELF                          | p                       |  0.495184687000119 |
+|                                   3 | SELF                          | p                       |  0.430139209999879 |
+|                                   3 | BITTER                        | q                       |  0.624098424999829 |
+|                                   3 | DANGER                        | q                       |  0.737878589000047 |
+|                                   3 | OTHER                         | p                       |  0.782873700999971 |
+|                                   3 | OTHER                         | q                       |  0.466062714000145 |
+|                                   3 | IMPULSE                       | p                       |   1.56365499899994 |
+|                                   3 | OTHER                         | q                       |  0.630221323999876 |
+|                                   3 | SELF                          | p                       |  0.552010788999951 |
+|                                   3 | OTHER                         | q                       |  0.764595799000062 |
+|                                   3 | FREE                          | p                       |  0.640696700000035 |
+|                                   3 | EMBARASS                      | q                       |   1.01788315700014 |
+|                                   3 | SKEPTICAL                     | q                       |   1.58007668799996 |
+|                                   3 | OTHER                         | q                       |  0.886506328999985 |
+|                                   3 | KIND                          | p                       |  0.589173410000058 |
+|                                   3 | OTHER                         | q                       |  0.712172536000026 |
+|                                   3 | FUN                           | p                       |  0.550385351000159 |
+|                                   3 | BRAVE                         | p                       |  0.682773716999918 |
+|                                   3 | DISGRACE                      | q                       |  0.778478464000045 |
+|                                   3 | SELF                          | p                       |  0.541899992000026 |
+|                                   3 | REGRET                        | q                       |   4.31013597399988 |
+|                                   3 | OTHER                         | q                       |  0.831654556000103 |
+|                                   3 | HONEST                        | p                       |   1.68181202100004 |
+|                                   3 | LOVE                          | p                       |  0.632095160000063 |
+|                                   3 | ALONE                         | p                       |   2.03484767700002 |
+|                                   3 | SELF                          | p                       |  0.754800894000027 |
+|                                   3 | HELPLESS                      | q                       |        3.545203765 |
+|                                   3 | PROUD                         | p                       |  0.794681699999956 |
+|                                   3 | OTHER                         | q                       |  0.797523442000056 |
+|                                   3 | FRIEND                        | p                       |  0.672306519999893 |
+|                                   3 | SELF                          | p                       |  0.567863511000041 |
+|                                   3 | TEACHER                       | p                       |  0.675700202000144 |
+|                                   3 | OTHER                         | p                       |  0.763265602000047 |
+|                                   3 | SUPERIOR                      | p                       |  0.903582110000116 |
+|                                   3 | SELF                          | p                       |   1.59029282999995 |
+|                                   3 | SELF                          | p                       |  0.456020217000059 |
+|                                   3 | HERO                          | p                       |   2.00945453500003 |
+|                                   3 | SELF                          | p                       |   1.03443220999998 |
+|                                   3 | OTHER                         | q                       |    1.9077931459999 |
+|                                   3 | OTHER                         | q                       |  0.416465428000038 |
+|                                   3 | SELF                          | p                       |   0.55433241500009 |
+|                                   3 | OTHER                         | q                       |  0.478604333000021 |
+|                                   3 | TROUBLE                       | q                       |   2.99188352499982 |
+|                                   3 | SELF                          | p                       |  0.584244567000042 |
+|                                   3 | HAPPY                         | p                       |  0.723287284999969 |
+|                                   3 | FAIL                          | q                       |   2.11364994099995 |
+|                                   3 | TRANQUIL                      | p                       |  0.758488002999911 |
+|                                   3 | SELF                          | p                       |   1.03491903000008 |
+| Positive Word Reaction Time Average | Sum of Positive Reaction Time | No of correct keystorks |                nil |
+|                  0.7584853594516384 | 23.513046143000793            | 31.0                    |                nil |
+| Negative Word Reaction Time Average | Sum of Negative Reaction Time | No of correct keystorks |                nil |
+|                  1.4086219559130273 | 32.39830498599963             | 23.0                    |                nil |
+
+#+begin_src R :session *datastructure* :exports both :results output
+##Shows Data Structure Sample
+head(dg, 5)
+#+end_src 
+
+#+RESULTS:
+:   Run.Number  Word Key Reaction.Time
+: 1          5 OTHER   p     3.6031035
+: 2          5  SELF   q     0.5321590
+: 3          5  SELF   q     0.9458877
+: 4          5 ALONE   p     1.4066698
+: 5          5  SELF   q     0.6486051
+
+
+#+begin_src R :session *IAT* :exports none
+summary(IAT_data)
+#+end_src
+
+#+RESULTS:
+| Min.   :3 | :8               | Min.   :0.3156 | Min.   : 8.205 | Min.   : 7.00 | Min.   :0.4183 | Min.   : 1.936 | Min.   : 3.00 | Mode:logical |
+| 1st Qu.:3 | Devon Gilders :1 | 1st Qu.:0.6684 | 1st Qu.:10.014 | 1st Qu.:15.50 | 1st Qu.:0.7532 | 1st Qu.:12.156 | 1st Qu.:15.50 | NA's:16      |
+| Median :4 | Eric Zhang    :1 | Median :0.7912 | Median :17.108 | Median :26.00 | Median :0.8852 | Median :19.444 | Median :23.50 | nil          |
+| Mean   :4 | Inaara Sarfani:1 | Mean   :0.8545 | Mean   :18.984 | Mean   :22.50 | Mean   :0.9437 | Mean   :21.108 | Mean   :20.50 | nil          |
+| 3rd Qu.:5 | Matthew Lam   :1 | 3rd Qu.:0.9442 | 3rd Qu.:24.588 | 3rd Qu.:28.25 | 3rd Qu.:1.1706 | 3rd Qu.:31.706 | 3rd Qu.:27.25 | nil          |
+| Max.   :5 | Parth Kukreja :1 | Max.   :1.5415 | Max.   :43.161 | Max.   :32.00 | Max.   :1.4131 | Max.   :43.807 | Max.   :31.00 | nil          |
+| nil       | (Other)       :3 | nil            | nil            | nil           | nil            | nil            | nil           | nil          |
+
+*Table 1*
+Descriptives of Reaction Times 
+#Not sure if we need a table for this or to include it, but I figured I'd put it in anyways as SDs are not included in the previous summary table
+
+#+begin_src R :session *IAT* :exports results :results output
+table_desc <- matrix(c(mean(IAT_data$Positive.Word.Reaction.Time.Average),sd(IAT_data$Positive.Word.Reaction.Time.Average),median(IAT_data$Positive.Word.Reaction.Time.Average),mean(IAT_data$Negative.Word.Reaction.Time.Average),sd(IAT_data$Negative.Word.Reaction.Time.Average), mean(IAT_data$Negative.Word.Reaction.Time.Average)), ncol = 3, byrow = TRUE)
+
+colnames(table_desc) <- c("Mean", "SD", "Median")
+rownames(table_desc) <- c("Positive Words", "Negative Words")      
+                    
+table_desc <- as.table(table_desc)
+
+table_desc
+#+end_src
+
+#+RESULTS:
+:                     Mean        SD    Median
+: Positive Words 0.8545347 0.3109061 0.7911803
+: Negative Words 0.9436601 0.3209012 0.9436601
+
+
+
+
+
+#+begin_src R :session *IAT* :exports none
+
+sd(IAT_data$Positive.Word.Reaction.Time.Average)
+sd(IAT_data$Sum.of.Positive.Reaction.Time)
+sd(IAT_data$No.of.correct.keystorks)
+sd(IAT_data$Negative.Word.Reaction.Time.Average)
+sd(IAT_data$Sum.of.Negative.Reaction.Time)
+sd(IAT_data$No.of.correct.keystorks.1)
+
+median(IAT_data$Positive.Word.Reaction.Time.Average)
+median(IAT_data$Sum.of.Positive.Reaction.Time)
+median(IAT_data$No.of.correct.keystorks)
+median(IAT_data$No.of.correct.keystorks)
+median(IAT_data$Sum.of.Negative.Reaction.Time)
+median(IAT_data$No.of.correct.keystorks.1)
+
+mean(IAT_data$Positive.Word.Reaction.Time.Average)
+mean(IAT_data$Sum.of.Positive.Reaction.Time)
+mean(IAT_data$No.of.correct.keystorks)
+mean(IAT_data$Negative.Word.Reaction.Time.Average)
+mean(IAT_data$Sum.of.Negative.Reaction.Time)
+mean(IAT_data$No.of.correct.keystorks.1)
+
+#+end_src
+
+#+RESULTS:
+: 20.5
+
+*T-Tests*
+#+begin_src R :session *T-test* :exports none :results output 
+library(dplyr)
+library(ggplot.multistats)
+library(ggplot2)
+
+IAT_data <- read.csv("IAT_ogcsv.csv", header = TRUE)
+
+
+data_block.3 <- IAT_data %>%
+  filter(Block == "3")
+data_block.5 <- IAT_data %>%
+  filter(Block == "5")
+
+ttest.1 <- t.test(data_block.3$Positive.Word.Reaction.Time.Average, data_block.5$Negative.Word.Reaction.Time.Average,paired=TRUE)
+
+ttest.2 <- t.test(data_block.5$Positive.Word.Reaction.Time.Average, data_block.5$Negative.Word.Reaction.Time.Average,paired = TRUE)
+
+ttest.1
+ttest.2
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+	Paired t-test
+
+data:  data_block.3$Positive.Word.Reaction.Time.Average and data_block.5$Negative.Word.Reaction.Time.Average
+t = -1.3768, df = 7, p-value = 0.211
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -0.4116658  0.1086900
+sample estimates:
+mean of the differences 
+             -0.1514879
+
+	Paired t-test
+
+data:  data_block.5$Positive.Word.Reaction.Time.Average and data_block.5$Negative.Word.Reaction.Time.Average
+t = -0.23742, df = 7, p-value = 0.8191
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -0.4027836  0.3292797
+sample estimates:
+mean of the differences 
+            -0.03675196
+#+end_example
+
+*Plot*
+#+begin_src R :session *IAT* :results file graphics replace :exports both :file "plot.png"
+
+IAT_data %>%
+  ggplot(aes(x = Positive.Word.Reaction.Time.Average, y = Negative.Word.Reaction.Time.Average, color = Block)) + geom_point()
+
+#+end_src
+
+#+RESULTS:
+[[file:plot.png]]
+
+* Discussion
+
+
+#+latex: \addcontentsline{toc}{section}{References}
+#+latex: \bibliographystyle{apalike}
+#+latex: \bibliography{references}
+
