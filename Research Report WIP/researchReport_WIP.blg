@@ -1,0 +1,65 @@
+This is BibTeX, Version 0.99d (TeX Live 2019/Debian)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: researchReport_WIP.aux
+The style file: apalike.bst
+Database file #1: references.bib
+"," immediately follows a field name---line 2 of file references.bib
+ : doi:10.1177/1745691619863798
+ :                             ,
+I'm skipping whatever remains of this entry
+"," immediately follows a field name---line 26 of file references.bib
+ : doi:10.1080/13548506.2016.1163399
+ :                                  ,
+I'm skipping whatever remains of this entry
+I was expecting an "="---line 69 of file references.bib
+ : publication 
+ :             date ="2013-04-01T00:00:00",
+I'm skipping whatever remains of this entry
+"," immediately follows a field name---line 100 of file references.bib
+ : doi:10.1177/0146167203258835
+ :                             ,
+I'm skipping whatever remains of this entry
+Warning--to sort, need author or key in Yang_2013
+Warning--empty author in Yang_2013
+You've used 3 entries,
+            1935 wiz_defined-function locations,
+            493 strings with 4339 characters,
+and the built_in function-call counts, 1102 in all, are:
+= -- 104
+> -- 31
+< -- 1
++ -- 10
+- -- 10
+* -- 104
+:= -- 187
+add.period$ -- 9
+call.type$ -- 3
+change.case$ -- 20
+chr.to.int$ -- 3
+cite$ -- 6
+duplicate$ -- 41
+empty$ -- 89
+format.name$ -- 14
+if$ -- 215
+int.to.chr$ -- 1
+int.to.str$ -- 0
+missing$ -- 3
+newline$ -- 18
+num.names$ -- 6
+pop$ -- 14
+preamble$ -- 1
+purify$ -- 20
+quote$ -- 0
+skip$ -- 32
+stack$ -- 0
+substring$ -- 91
+swap$ -- 3
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 18
+warning$ -- 2
+while$ -- 6
+width$ -- 0
+write$ -- 40
+(There were 4 error messages)
