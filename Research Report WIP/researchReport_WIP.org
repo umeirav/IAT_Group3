@@ -147,7 +147,7 @@ mean of the differences
 #+begin_src R :session *IAT* :results file graphics replace :exports results :file "plot.png"
 
 IAT_data %>%
-  ggplot(aes(x = Positive.Word.Reaction.Time.Average, y = Negative.Word.Reaction.Time.Average, color = Block)) + geom_point()
+  ggplot(aes(x = Positive.Word.Reaction.Time.Average, y = Negative.Word.Reaction.Time.Average, color = as.factor(Block))) + geom_point()
 
 #+end_src
 
