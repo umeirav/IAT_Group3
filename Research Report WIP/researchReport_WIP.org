@@ -109,10 +109,11 @@ data_block.3 <- IAT_data %>%
 data_block.5 <- IAT_data %>%
   filter(Block == "5")
 
-ttest.1 <- t.test(data_block.3$Positive.Word.Reaction.Time.Average, data_block.5$Negative.Word.Reaction.Time.Average,paired=TRUE)
-
+ttest.1 <- t.test(data_block.3$Positive.Word.Reaction.Time.Average, data_block.5$Positive.Word.Reaction.Time.Average,paired=TRUE)
+ttest.2 <- t.test(data_block.3$Negative.Word.Reaction.Time.Average, data_block.5$Negative.Word.Reaction.Time.Average,paired=TRUE)
 
 ttest.1
+tttest.2
 
 #+end_src
 
