@@ -143,11 +143,11 @@ mean of the differences
             -0.03675196
 #+end_example
 
-*Plot*
+*Plot*u
 #+begin_src R :session *IAT* :results file graphics replace :exports results :file "plot.png"
 
 IAT_data %>%
-  ggplot(aes(x = Positive.Word.Reaction.Time.Average, y = Negative.Word.Reaction.Time.Average, color = as.factor(Block))) + geom_point()
+  ggplot(aes(x = Positive.Word.Reaction.Time.Average, y = Negative.Word.Reaction.Time.Average, color = as.factor(Block))) + geom_point() + guides(color=guide_legend("Block Number"))
 
 #+end_src
 
