@@ -1,5 +1,6 @@
-#+Title: Final Reserach Report P363 (Group 3)
-#+Author: 
+#+Title: PSYCH 363 - Implicit Association Test: Self-Esteem
+#+Author: Daniel Zehr, Inaara Sarfani, Matthew Cuong Lam, Tanya Panesar, & Umeira Vijendra
+#+DATE: \today
 
 
 * Introduction 
@@ -19,6 +20,8 @@ In the IAT, the subject responds to a series of items that are to be classified 
 Part 1 consists of instructions for the subject to understand what is needed from them. In the first step, the subjects practice a target concept by classifying items into self and other categories. The second step includes categorizing pleasant and unpleasant words. In the third step, the subject groups items into 2 integrated categories, ie, it includes the target and attribute concept, assigned to same key in the previous two steps. For instance, self+pleasant (left key), other+unpleasant(right key). The fourth step is the practice test with reverse keys for either the target or attribute concept. The last step involves switched key experiment. For example, self+unpleasant (left key) or other+pleasant(right key). 
 
 * Results
+
+Analyses focus on participants' keyboard response times to both positive and negative words presented in the third and fifth block trials of the experiment, where the response keys were switched.
 
 ##Setup for data export
 #+begin_src R :session *IAT* :exports none
@@ -75,6 +78,9 @@ mean(IAT_data$No.of.correct.keystorks.1)
 
 *Table 1*
 Descriptives of Reaction Times 
+
+A slight variation among response times exists between participants’ responses to positive versus negative words, in that, negative words incurred a slightly longer average, standard deviation, and median keyboard response time across both conditions (Table 1). 
+
 #+begin_src R :session *IAT* :exports results :results output
 table_desc <- matrix(c(mean(IAT_data$Positive.Word.Reaction.Time.Average),sd(IAT_data$Positive.Word.Reaction.Time.Average),median(IAT_data$Positive.Word.Reaction.Time.Average),mean(IAT_data$Negative.Word.Reaction.Time.Average),sd(IAT_data$Negative.Word.Reaction.Time.Average), mean(IAT_data$Negative.Word.Reaction.Time.Average)), ncol = 3, byrow = TRUE)
 
@@ -94,12 +100,13 @@ table_desc
 
 *T-Tests*
 
-A paired samples t-test was conducted to compare reaction times with positive words and negative words. There was not a significant difference between the two conditions, t(7) =  src_R[:session *T-test* :exports results :results raw]{ttest.1$statistic}, p > 0.05.  
+Two t-tests were conducted to compare reaction times with positive and negative words among the two conditions. There is not a significant difference between the two conditions, block 3 t(7) =  src_R[:session *T-test* :exports results :results raw]{ttest.1$statistic}, p > 0.05, block 5 t(7) = src_R[:session *T-Test* :exports results :results raw]{ttest.2$statistic}, p > 0.05. ##block 3 t(7) = -1.3768, p > 0.05, block 5 t(7) = -0.23742, p > 0.05.   
 
 #+begin_src R :session *T-test* :exports none :results none
 library(dplyr)
 library(ggplot.multistats)
 library(ggplot2)
+library(effsize)
 
 IAT_data <- read.csv("IAT_ogcsv.csv", header = TRUE)
 
@@ -118,6 +125,7 @@ tttest.2
 #+end_src
 
 #+RESULTS:
+
 #+begin_example
 
 	Paired t-test
@@ -141,13 +149,29 @@ alternative hypothesis: true difference in means is not equal to 0
 sample estimates:
 mean of the differences 
             -0.03675196
+
+	Cohen's D for paired t-tests
+
+data_block.3 <- IAT_data %>%
+  filter(Block == "3")
+data_block.5 <- IAT_data %>%
+  filter(Block == "5")
+
+cohen.d(data_block.3$Positive.Word.Reaction.Time.Average, data_block.5$Positive.Word.Reaction.Time.Average, na.rm = TRUE, pooled = TRUE, paired = TRUE)
+cohen.d(data_block.3$Negative.Word.Reaction.Time.Average, data_block.5$Negative.Word.Reaction.Time.Average, na.rm = TRUE, pooled = TRUE, paired = TRUE)
+
 #+end_example
 
-*Plot*u
+*Plot*
+Figure 1 
+
+On observation of the negative and positive word reaction times for each comparative trial block 
+no significant difference is evident. Despite this result, the plot seems to show a similar pattern as Table 1 with an overall decrease in average reaction times for positive words in comparison to negative words regardless of condition, although it should be noted that this relationship is non-significant (Figure 1). 
+
 #+begin_src R :session *IAT* :results file graphics replace :exports results :file "plot.png"
 
 IAT_data %>%
-  ggplot(aes(x = Positive.Word.Reaction.Time.Average, y = Negative.Word.Reaction.Time.Average, color = as.factor(Block))) + geom_point() + guides(color=guide_legend("Block Number"))
+  ggplot(aes(x = Positive.Word.Reaction.Time.Average, y = Negative.Word.Reaction.Time.Average, color = as.factor(Block))) + geom_point()
 
 #+end_src
 
@@ -155,12 +179,8 @@ IAT_data %>%
 [[file:plot.png]]
 
 * Discussion
-
-Discussion Stuff
-
-
-
-
+The experiment examines the elapsed time of each stimulus and the reaction time and consists of 16 observations of 8 variables (steps 3 and 5) 
+The insignificance for both T-tests is expected as the sample size is small in comparison to our referenced paper (Greenwald & Farnham, 2000). It was hypothesized that individuals will respond much faster to positive items about self. Our results showed a slightly higher mean for negative reaction time average (0.94366 sec) than positive time average (0.8545 sec), suggesting that participants responded to positive items faster than negative. Furthermore, the average number of correct keystrokes for positive and negative words are the same (26) and indicates that participants were equally likely to refer to themselves to positive words as to others for negative. The p-value is 0.211 which means the hypothesis is statistically insignificant; the means for both negative and positive reaction times significantly differ.  The confidence interval is [-0.4116658  0.1086900]. We can conclude that the mean difference between the 2 blocks is  -0.4116658 and 0.1086900.Our plot and t-tests show that there is not a significant association between reaction time and the blocks. The negative reaction time for blocks 3 and 5 show a negligible effect size (-0.02977), so the mean difference is less than 0.2 standard deviations. The positive reaction time for blocks 3 and 5 give a small effect size (-0.3525) and is not important with limited practical use. There are many factors that could have influenced our findings including lack of measures to account for motivation, effects of distraction on reaction time and other self biases. 
 
 #+latex: \addcontentsline{toc}{section}{References}
 #+latex: \bibliographystyle{apalike}
