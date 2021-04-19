@@ -1,6 +1,6 @@
-#+Title: Final Reserach Report P363 (Group 3)
-#+Author: 
-
+#+Title: PSYCH 363 - Implicit Association Test: Self-Esteem
+#+Author: Daniel Zehr, Inaara Sarfani, Matthew Cuong Lam, Tanya Panesar, & Umeira Vijendra
+#+DATE: \today
 
 * Introduction 
 
@@ -19,6 +19,8 @@ In the IAT, the subject responds to a series of items that are to be classified 
 Part 1 consists of instructions for the subject to understand what is needed from them. In the first step, the subjects practice a target concept by classifying items into self and other categories. The second step includes categorizing pleasant and unpleasant words. In the third step, the subject groups items into 2 integrated categories, ie, it includes the target and attribute concept, assigned to same key in the previous two steps. For instance, self+pleasant (left key), other+unpleasant(right key). The fourth step is the practice test with reverse keys for either the target or attribute concept. The last step involves switched key experiment. For example, self+unpleasant (left key) or other+pleasant(right key). 
 
 * Results
+
+Analyses focus on participants' keyboard response times to both positive and negative words presented in the third and fifth block trials of the experiment, where the response keys were switched.
 
 ##Setup for data export
 #+begin_src R :session *IAT* :exports none
@@ -210,7 +212,10 @@ summary(IAT_data)
 | nil       | (Other)       :3 | nil            | nil            | nil           | nil            | nil            | nil           | nil          |
 
 *Table 1*
-Descriptives of Reaction Times 
+Descriptives of Reaction Times
+ 
+A slight variation among response times exists between participants’ responses to positive versus negative words, in that, negative words incurred a slightly longer average, standard deviation, and median keyboard response time across both conditions (Table 1).
+
 #Not sure if we need a table for this or to include it, but I figured I'd put it in anyways as SDs are not included in the previous summary table
 
 #+begin_src R :session *IAT* :exports results :results output
@@ -310,6 +315,10 @@ mean of the differences
 #+end_example
 
 *Plot*
+Figure 1
+
+On observation of the negative and positive word reaction times for each comparative trial block no significant difference is evident. Despite this result, the plot seems to show a similar pattern as Table 1 with an overall decrease in average reaction times for positive words in comparison to negative words regardless of condition, although it should be noted that this relationship is non-significant (Figure 1). 
+
 #+begin_src R :session *IAT* :results file graphics replace :exports both :file "plot.png"
 
 IAT_data %>%
