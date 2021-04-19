@@ -109,10 +109,11 @@ data_block.3 <- IAT_data %>%
 data_block.5 <- IAT_data %>%
   filter(Block == "5")
 
-ttest.1 <- t.test(data_block.3$Positive.Word.Reaction.Time.Average, data_block.5$Negative.Word.Reaction.Time.Average,paired=TRUE)
-
+ttest.1 <- t.test(data_block.3$Positive.Word.Reaction.Time.Average, data_block.5$Positive.Word.Reaction.Time.Average,paired=TRUE)
+ttest.2 <- t.test(data_block.3$Negative.Word.Reaction.Time.Average, data_block.5$Negative.Word.Reaction.Time.Average,paired=TRUE)
 
 ttest.1
+tttest.2
 
 #+end_src
 
@@ -146,7 +147,7 @@ mean of the differences
 #+begin_src R :session *IAT* :results file graphics replace :exports results :file "plot.png"
 
 IAT_data %>%
-  ggplot(aes(x = Positive.Word.Reaction.Time.Average, y = Negative.Word.Reaction.Time.Average, color = Block)) + geom_point()
+  ggplot(aes(x = Positive.Word.Reaction.Time.Average, y = Negative.Word.Reaction.Time.Average, color = as.factor(Block))) + geom_point()
 
 #+end_src
 
