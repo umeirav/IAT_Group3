@@ -143,11 +143,11 @@ mean of the differences
             -0.03675196
 #+end_example
 
-*Plot*u
+*Plot*
 #+begin_src R :session *IAT* :results file graphics replace :exports results :file "plot.png"
 
 IAT_data %>%
-  ggplot(aes(x = Positive.Word.Reaction.Time.Average, y = Negative.Word.Reaction.Time.Average, color = as.factor(Block))) + geom_point() + guides(color=guide_legend("Block Number"))
+  ggplot(aes(x = Positive.Word.Reaction.Time.Average, y = Negative.Word.Reaction.Time.Average, color = as.factor(Block))) + geom_point()
 
 #+end_src
 
@@ -155,11 +155,10 @@ IAT_data %>%
 [[file:plot.png]]
 
 * Discussion
+The experiment examines the elapsed time of each stimulus and the reaction time and consists of 16 observations of 8 variables (steps 3 and 5) 
+The insignificance for both T-tests is expected as the sample size is small in comparison to our referenced paper (Greenwald & Farnham, 2000). It was hypothesized that individuals will respond much faster to positive items about self. Our results showed a slightly higher mean for negative reaction time average (0.94366 sec) than positive time average (0.8545 sec), suggesting that participants responded to positive items faster than negative. Furthermore, the average number of correct keystrokes for positive and negative words are the same (26) and indicates that participants were equally likely to refer to themselves to positive words as to others for negative. The p-value is 0.211 which means the hypothesis is statistically insignificant; the means for both negative and positive reaction times significantly differ. The confidence interval is [-0.4116658  0.1086900]. We can conclude that the mean difference between the 2 blocks is  -0.4116658 and 0.1086900.Our plot and t-tests show that there is not a significant association between reaction time and the blocks. 
 
-Discussion Stuff
-
-
-
+Our results likely 
 
 
 #+latex: \addcontentsline{toc}{section}{References}
